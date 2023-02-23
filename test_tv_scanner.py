@@ -13,12 +13,16 @@ while True:
     if dt.datetime.now(tz=tz).time() >= dt.time(9, 8):  # time of the test: 09:08 est time
         for i in range(50):
             data = tvs.get_data(scanner_type='pm_gainers', return_type='dict')
+            #print('data',data)
+            my_filter = list(filter(lambda x: data[x]['premarket_change_perc'] > 30 and data[x]['close'] > 1.5, data))
+            print('my_filter',my_filter)
             top_symbol = list(sorted(data, key=lambda x: data[x]['premarket_volume'], reverse=True))[0]
-
+            print('top_symbol',top_symbol)
             top_volume = data[top_symbol]['premarket_volume']
             my_list.append(top_volume)
             print(top_volume)
             sleep(10)
+            print(tvs.columns)
         break
 
 print('list =', my_list)
